@@ -1,16 +1,39 @@
 const gameBoard = (() => {
-    let gridArray = [["", "", ""], ["", "", ""], ["", "", ""]];
+    let gridArray = [
+        ["", "", ""],
+        ["", "", ""],
+        ["", "", ""],
+    ];
 
-    const setTile = (mark, position) => {
+    const setTile = (position, mark ) => {
         gridArray[position.x][position.y] = mark;
-    }
+    };
+
+    const isValidMove = (position) => gridArray[position.x][position.y] === "";
 
     const clearGrid = () => {
-        gridArray = [["", "", ""], ["", "", ""], ["", "", ""]];
-    }
+        gridArray = [
+            ["", "", ""],
+            ["", "", ""],
+            ["", "", ""],
+        ];
+    };
 
     return {
         setTile,
-        clearGrid
-    }
+        clearGrid,
+        isValidMove,
+    };
 })();
+
+const Player = (name, mark) => {
+    const takeTurn = (position) => {
+        if (!gameBoard.isValidMove(position)) {
+            return;
+        }
+
+        gameBoard.setTile(position, mark)
+    };
+
+    return {takeTurn};
+};
