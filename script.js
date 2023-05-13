@@ -1,14 +1,10 @@
-const DISPLAY = document.querySelector("body")
+const DISPLAY = document.querySelector("#board");
 
 // Game board module
 const gameBoard = (() => {
-    let boardArray = [
-        ["", "", ""],
-        ["", "", ""],
-        ["", "", ""],
-    ];
+    let boardArray = ["x", "x", "x", "o", "", "o", "x", "", ""];
 
-    const setTile = (position, mark ) => {
+    const setTile = (position, mark) => {
         boardArray[position.x][position.y] = mark;
     };
 
@@ -16,23 +12,41 @@ const gameBoard = (() => {
     const getBoard = () => boardArray;
 
     const clearGrid = () => {
-        boardArray = [
-            ["", "", ""],
-            ["", "", ""],
-            ["", "", ""],
-        ];
+        boardArray = ["", "", "", "", "", "", "", "", ""];
     };
 
     return {
         setTile,
         clearGrid,
         isValidMove,
-        getBoard
+        getBoard,
     };
 })();
 
 const displayController = ((display) => {
-    console.log("Doing something");
+    const cross = document.querySelector(".hidden-elements .cross");
+    const circle = document.querySelector(".hidden-elements .circle");
+
+    const updateDisplay = () => {
+        const boardArray = gameBoard.getBoard();
+
+        boardArray.forEach((mark, index) => {
+            if (mark === "") return;
+
+            const button = display.querySelector(`button[data-index='${index}']`);
+            button.innerHTML = "";
+
+            if (mark === "x") {
+                button.appendChild(cross.cloneNode(true));
+            } else if (mark === "o") {
+                button.appendChild(circle.cloneNode(true));
+            }
+        });
+    };
+
+    return {
+        updateDisplay,
+    };
 })(DISPLAY);
 
 const Player = (name, mark) => {
@@ -41,13 +55,15 @@ const Player = (name, mark) => {
             return;
         }
 
-        gameBoard.setTile(position, mark)
+        gameBoard.setTile(position, mark);
     };
 
-    const getName = () => name
+    const getName = () => name;
+    const getMark = () => mark;
 
     return {
         takeTurn,
-        getName
+        getName,
+        getMark,
     };
 };

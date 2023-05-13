@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Tic Tac Toe</title>
         <link rel="stylesheet" href="./style.css" />
-        <script src="./script.js"></script>
+        <script src="./script.js" defer></script>
         <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0,-50..200" />
@@ -19,19 +19,15 @@
             <div class="game-container">
                 <div class="info-container"></div>
                 <div id="board">
-                    <button type="button" class="board-button" data-position="1_1"></button>
-                    <button type="button" class="board-button" data-position="1_2"></button>
-                    <button type="button" class="board-button" data-position="1_3"></button>
-                    <button type="button" class="board-button" data-position="2_1"></button>
-                    <button type="button" class="board-button player2-mark" data-position="2_2">
-                        <span class="material-symbols-outlined">circle</span>
-                    </button>
-                    <button type="button" class="board-button" data-position="2_3"></button>
-                    <button type="button" class="board-button" data-position="3_1"></button>
-                    <button type="button" class="board-button" data-position="3_2"></button>
-                    <button type="button" class="board-button player1-mark" data-position="3_3">
-                        <span class="material-symbols-outlined">close</span>
-                    </button>
+                    <button type="button" class="board-button" data-index="0"></button>
+                    <button type="button" class="board-button" data-index="1"></button>
+                    <button type="button" class="board-button" data-index="2"></button>
+                    <button type="button" class="board-button" data-index="3"></button>
+                    <button type="button" class="board-button" data-index="4"></button>
+                    <button type="button" class="board-button" data-index="5"></button>
+                    <button type="button" class="board-button" data-index="6"></button>
+                    <button type="button" class="board-button" data-index="7"></button>
+                    <button type="button" class="board-button" data-index="8"></button>
                 </div>
             </div>
         </main>
@@ -48,5 +44,9 @@
                 Source Code
             </a>
         </footer>
+        <div class="hidden-elements" aria-hidden="true">
+            <span class="material-symbols-outlined cross">close</span>
+            <span class="material-symbols-outlined circle">circle</span>
+        </div>
     </body>
 </html>
