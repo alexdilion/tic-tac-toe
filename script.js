@@ -1,18 +1,22 @@
+const DISPLAY = document.querySelector("body")
+
+// Game board module
 const gameBoard = (() => {
-    let gridArray = [
+    let boardArray = [
         ["", "", ""],
         ["", "", ""],
         ["", "", ""],
     ];
 
     const setTile = (position, mark ) => {
-        gridArray[position.x][position.y] = mark;
+        boardArray[position.x][position.y] = mark;
     };
 
-    const isValidMove = (position) => gridArray[position.x][position.y] === "";
+    const isValidMove = (position) => boardArray[position.x][position.y] === "";
+    const getBoard = () => boardArray;
 
     const clearGrid = () => {
-        gridArray = [
+        boardArray = [
             ["", "", ""],
             ["", "", ""],
             ["", "", ""],
@@ -23,8 +27,13 @@ const gameBoard = (() => {
         setTile,
         clearGrid,
         isValidMove,
+        getBoard
     };
 })();
+
+const displayController = ((display) => {
+    console.log("Doing something");
+})(DISPLAY);
 
 const Player = (name, mark) => {
     const takeTurn = (position) => {
@@ -35,5 +44,10 @@ const Player = (name, mark) => {
         gameBoard.setTile(position, mark)
     };
 
-    return {takeTurn};
+    const getName = () => name
+
+    return {
+        takeTurn,
+        getName
+    };
 };

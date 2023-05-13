@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;800&display=swap');
+
+:root {
+    --page-background: #f3fafd;
+    --game-background: #dfe6e9;
+    --game-hover: #b2bec3;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: Poppins, Arial, Helvetica, sans-serif;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--page-background);
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    color: #2d3436;
+    font-size: 3rem;
+    margin-top: 0;
+}
+
+.game-container {
+    border: 2px solid #2d3436;
+    background-color: var(--game-background);
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+#board {
+    display: grid;
+    gap: 1px;
+    grid-template-columns: repeat(3, 1fr);
+    background-color: #2d3436;
+}
+
+.board-button {
+    appearance: none;
+    border: none;
+    background-color: var(--game-background);
+
+    width: 150px;
+    height: 150px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.board-button:hover {
+    background-color: var(--game-hover);
+}
+
+.board-button span {
+    font-size: 6rem;
+    font-weight: 900;
+}
+
+.player1-mark {
+    color: #0984e3;
+}
+
+.player2-mark {
+    color: #d63031
+}
+
+footer a img {
+    height: 30px;
+    width: 30px;
+}

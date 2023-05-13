@@ -7,8 +7,46 @@
         <title>Tic Tac Toe</title>
         <link rel="stylesheet" href="./style.css" />
         <script src="./script.js"></script>
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0,-50..200" />
     </head>
     <body>
-        <h1>hello</h1>
+        <header>
+            <h1 class="title">Tic Tac Toe</h1>
+        </header>
+        <main>
+            <div class="game-container">
+                <div class="info-container"></div>
+                <div id="board">
+                    <button type="button" class="board-button" data-position="1_1"></button>
+                    <button type="button" class="board-button" data-position="1_2"></button>
+                    <button type="button" class="board-button" data-position="1_3"></button>
+                    <button type="button" class="board-button" data-position="2_1"></button>
+                    <button type="button" class="board-button player2-mark" data-position="2_2">
+                        <span class="material-symbols-outlined">circle</span>
+                    </button>
+                    <button type="button" class="board-button" data-position="2_3"></button>
+                    <button type="button" class="board-button" data-position="3_1"></button>
+                    <button type="button" class="board-button" data-position="3_2"></button>
+                    <button type="button" class="board-button player1-mark" data-position="3_3">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <p>
+                Alexander Dilion &copy;
+                <script>
+                    const year = new Date().getFullYear();
+                    document.write(year);
+                </script>
+            </p>
+            <a href="https://github.com/alexdilion/library-app">
+                <img src="./images/github-mark.png" alt="GitHub Logo" />
+                Source Code
+            </a>
+        </footer>
     </body>
 </html>
