@@ -57,12 +57,14 @@ body {
 
 .board-button:hover {
     background-color: var(--button-hover);
+    cursor: pointer;
 }
 
 .board-button span {
     font-weight: 900;
     font-size: 6rem;
     transition: opacity .25s ease-out;
+    user-select: none;
 }
 
 span.player1 {
@@ -80,8 +82,4 @@ footer a img {
 
 .transparent {
     opacity: 0;
-}
-
-.hidden-elements {
-    display: none;
 }
