@@ -62,19 +62,24 @@ body {
 .board-button span {
     font-weight: 900;
     font-size: 6rem;
+    transition: opacity .25s ease-out;
 }
 
-span.cross {
+span.player1 {
     color: #0984e3;
 }
 
-span.circle {
+span.player2 {
     color: #d63031;
 }
 
 footer a img {
     height: 30px;
     width: 30px;
+}
+
+.transparent {
+    opacity: 0;
 }
 
 .hidden-elements {
