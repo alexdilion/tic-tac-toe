@@ -9,7 +9,6 @@ const gameBoard = (() => {
         boardArray[position] = playerNumber.toString();
     };
 
-    const isValidMove = (position) => boardArray[position] === "";
     const getBoard = () => boardArray;
 
     const clear = () => {
@@ -19,7 +18,6 @@ const gameBoard = (() => {
     return {
         setTile,
         clear,
-        isValidMove,
         getBoard,
     };
 })();
@@ -48,8 +46,14 @@ const displayController = ((display) => {
         });
     };
 
+    const clearDisplay = () => {
+        gameBoard.clear();
+        updateDisplay();
+    }
+
     return {
         updateDisplay,
+        clearDisplay,
     };
 })(DISPLAY);
 
@@ -105,8 +109,14 @@ const gameController = (() => {
         currentPlayer = currentPlayer === player1 ? (currentPlayer = player2) : (currentPlayer = player1);
     };
 
+    const isValidMove = (position) => {
+        const board = gameBoard.getBoard();
+
+        return board[position] === "";
+    }
+
     const playTurn = (position) => {
-        if (!gameBoard.isValidMove(position)) {
+        if (!isValidMove(position)) {
             return;
         }
 
