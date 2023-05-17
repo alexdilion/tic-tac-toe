@@ -1,12 +1,18 @@
 const DISPLAY = document.querySelector("#board");
 const BUTTONS = DISPLAY.querySelectorAll(".board-button");
 
-// Game board module
 const gameBoard = (() => {
-    let boardArray = ["", "", "", "", "", "", "", "", ""];
+    // An empty string represents an empty tile
+    // Numbers represent a player
+    let boardArray = [
+        ["", "", ""],
+        ["", "", ""],
+        ["", "", ""],
+    ];
 
     const setTile = (position, playerNumber) => {
-        boardArray[position] = playerNumber.toString();
+        boardArray[position.x][position.y] = playerNumber.toString();
+        console.table(boardArray);
     };
 
     const getBoard = () => boardArray;
@@ -22,42 +28,38 @@ const gameBoard = (() => {
     };
 })();
 
-// Display module
 const displayController = ((display) => {
     const updateDisplay = () => {
         const boardArray = gameBoard.getBoard();
         const p1Mark = gameController.getPlayers().player1.getMark();
         const p2Mark = gameController.getPlayers().player2.getMark();
 
-        boardArray.forEach((tile, position) => {
-            const htmlMark = display.querySelector(`button[data-position="${position}"] > span`);
+        // Update each tile according to the board state
+        boardArray.forEach((row, rowIndex) => {
+            row.forEach((val, valIndex) => {
+                const position = `${rowIndex}-${valIndex}`;
+                const htmlMark = display.querySelector(`button[data-position="${position}"] > span`);
 
-            if (tile === "") {
-                htmlMark.classList.add("transparent");
-            } else if (tile === "1") {
-                htmlMark.textContent = p1Mark;
-                htmlMark.classList.remove("player2", "transparent");
-                htmlMark.classList.add("player1");
-            } else if (tile === "2") {
-                htmlMark.textContent = p2Mark;
-                htmlMark.classList.remove("player1", "transparent");
-                htmlMark.classList.add("player2");
-            }
+                if (val === "") {
+                    htmlMark.classList.add("transparent");
+                } else if (val === "1") {
+                    htmlMark.textContent = p1Mark;
+                    htmlMark.classList.remove("player2", "transparent");
+                    htmlMark.classList.add("player1");
+                } else if (val === "2") {
+                    htmlMark.textContent = p2Mark;
+                    htmlMark.classList.remove("player1", "transparent");
+                    htmlMark.classList.add("player2");
+                }
+            });
         });
     };
 
-    const clearDisplay = () => {
-        gameBoard.clear();
-        updateDisplay();
-    }
-
     return {
         updateDisplay,
-        clearDisplay,
     };
 })(DISPLAY);
 
-// Player factory
 const Player = (playerNumber, playerName, playerMark) => {
     let name = playerName;
     let mark = playerMark;
@@ -97,8 +99,6 @@ const Player = (playerNumber, playerName, playerMark) => {
     };
 };
 
-// Game controller module
-// Game loop and logic occurs here
 const gameController = (() => {
     const player1 = Player(1, "Player 1", "close");
     const player2 = Player(2, "Player 2", "circle");
@@ -112,8 +112,13 @@ const gameController = (() => {
     const isValidMove = (position) => {
         const board = gameBoard.getBoard();
 
-        return board[position] === "";
-    }
+        return board[position.x][position.y] === "";
+    };
+
+    const nextRound = () => {
+        gameBoard.clear();
+        displayController.updateDisplay();
+    };
 
     const playTurn = (position) => {
         if (!isValidMove(position)) {
@@ -137,7 +142,8 @@ const gameController = (() => {
 
 BUTTONS.forEach((button) => {
     button.addEventListener("click", (e) => {
-        const pos = +e.target.closest("button").getAttribute("data-position");
+        let pos = e.target.closest("button").getAttribute("data-position").split("-");
+        pos = {x: pos[0], y: pos[1]};
         gameController.playTurn(pos);
     });
 });
