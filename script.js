@@ -9,22 +9,55 @@ const gameBoard = (() => {
         ["", "", ""],
         ["", "", ""],
     ];
+    let tilesTaken = 0;
 
     const setTile = (position, playerNumber) => {
         boardArray[position.x][position.y] = playerNumber.toString();
-        console.table(boardArray);
+        tilesTaken += 1;
     };
 
     const getBoard = () => boardArray;
 
     const clear = () => {
-        boardArray = ["", "", "", "", "", "", "", "", ""];
+        boardArray = [
+            ["", "", ""],
+            ["", "", ""],
+            ["", "", ""],
+        ];
+        tilesTaken = 0;
+    };
+
+    const checkBoard = () => {
+        const rows = getBoard();
+        const columns = getBoard()[0].map((col, i) => getBoard().map((row) => row[i]));
+        const diagonals = [
+            [boardArray[0][0], boardArray[1][1], boardArray[2][2]],
+            [boardArray[2][0], boardArray[1][1], boardArray[0][2]],
+        ];
+
+        const checkLines = (lines) => {
+            const result = lines.map((line) => {
+                if (line[0] === "") return false;
+
+                return line.every((value) => value === line[0]);
+            });
+
+            return result.indexOf(true) !== -1;
+        };
+
+        const win = checkLines(rows) || checkLines(columns) || checkLines(diagonals);
+
+        if (win) return "win";
+        if (tilesTaken === 9) return "tie";
+        
+        return "continue";
     };
 
     return {
         setTile,
         clear,
         getBoard,
+        checkBoard,
     };
 })();
 
@@ -127,6 +160,9 @@ const gameController = (() => {
 
         currentPlayer.placeMark(position);
         displayController.updateDisplay();
+
+        const turnResult = gameBoard.checkBoard();
+
         changePlayer();
     };
 
