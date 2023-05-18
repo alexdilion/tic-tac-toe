@@ -64,8 +64,9 @@ const gameBoard = (() => {
 const displayController = ((display) => {
     const updateDisplay = () => {
         const boardArray = gameBoard.getBoard();
-        const p1Mark = gameController.getPlayers().player1.getMark();
-        const p2Mark = gameController.getPlayers().player2.getMark();
+        const players = gameController.getPlayers()
+        const p1Mark = players.player1.getMark();
+        const p2Mark = players.player2.getMark();
 
         // Update each tile according to the board state
         boardArray.forEach((row, rowIndex) => {
@@ -77,15 +78,21 @@ const displayController = ((display) => {
                     htmlMark.classList.add("transparent");
                 } else if (val === "1") {
                     htmlMark.textContent = p1Mark;
-                    htmlMark.classList.remove("player2", "transparent");
-                    htmlMark.classList.add("player1");
+                    htmlMark.classList.remove("player2-color", "transparent");
+                    htmlMark.classList.add("player1-color");
                 } else if (val === "2") {
                     htmlMark.textContent = p2Mark;
-                    htmlMark.classList.remove("player1", "transparent");
-                    htmlMark.classList.add("player2");
+                    htmlMark.classList.remove("player1-color", "transparent");
+                    htmlMark.classList.add("player2-color");
                 }
             });
         });
+
+        // Update player info
+        document.querySelector(".player1-info .score").textContent = players.player1.getWins();
+        document.querySelector(".player2-info .score").textContent = players.player2.getWins();
+        document.querySelector(".player1-info .name").textContent = players.player1.getName();
+        document.querySelector(".player2-info .name").textContent = players.player2.getName();
     };
 
     return {
@@ -133,10 +140,11 @@ const Player = (playerNumber, playerName, playerMark) => {
 };
 
 const gameController = (() => {
-    const player1 = Player(1, "Player 1", "close");
-    const player2 = Player(2, "Player 2", "circle");
+    const player1 = Player(1, "Alex", "close");
+    const player2 = Player(2, "CPU", "circle");
 
     let currentPlayer = player1;
+    let playing = true;
 
     const changePlayer = () => {
         currentPlayer = currentPlayer === player1 ? (currentPlayer = player2) : (currentPlayer = player1);
@@ -148,22 +156,29 @@ const gameController = (() => {
         return board[position.x][position.y] === "";
     };
 
-    const nextRound = () => {
+    const newRound = () => {
         gameBoard.clear();
         displayController.updateDisplay();
+        currentPlayer = player1;
+        playing = true;
     };
 
     const playTurn = (position) => {
-        if (!isValidMove(position)) {
-            return;
-        }
+        if (!isValidMove(position)) return;
+        if (!playing) return;
 
         currentPlayer.placeMark(position);
         displayController.updateDisplay();
 
         const turnResult = gameBoard.checkBoard();
 
-        changePlayer();
+        if (turnResult === "tie" || turnResult === "win") {
+            if (turnResult === "win") currentPlayer.addWin();
+            playing = false;
+            setTimeout(newRound, 500);
+        } else {
+            changePlayer();
+        }
     };
 
     const getCurrentPlayer = () => currentPlayer;
@@ -175,6 +190,8 @@ const gameController = (() => {
         playTurn,
     };
 })();
+
+displayController.updateDisplay();
 
 BUTTONS.forEach((button) => {
     button.addEventListener("click", (e) => {
