@@ -11,20 +11,32 @@
 }
 
 body {
+    padding: 2rem 0;
     margin: 0;
     min-height: 100vh;
     background-color: var(--page-background);
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }
 
 .title {
     color: #2d3436;
     font-size: 3rem;
-    margin: 0 0 1rem
+    margin: 0;
+}
+
+main {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+.game-form button {
+    font-weight: 900;
+    color:#2d3436;
 }
 
 .info-container {
@@ -58,7 +70,7 @@ body {
     background-color: #d63031;
 }
 
-.game-container {
+.board-container {
     border: 2px solid #2d3436;
     background-color: var(--page-background);
     border-radius: 1rem;
@@ -98,7 +110,7 @@ body {
 .board-button span {
     font-weight: 900;
     font-size: clamp(4rem, 0rem + 12.8vw, 6rem);
-    transition: opacity .25s ease-out;
+    transition: opacity 0.25s ease-out;
     user-select: none;
 }
 
@@ -115,6 +127,38 @@ footer a img {
     width: 30px;
 }
 
+footer {
+    text-align: center;
+}
+
+footer p {
+    margin: 0 0 .5rem;
+    color: #2d3436;
+}
+
+footer a,
+footer svg {
+    transition: color .25s ease-out;
+}
+
+footer a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: #2d3436;
+}
+
+footer a:hover,
+footer a:hover svg {
+    color: #0984e3;
+}
+
 .transparent {
     opacity: 0;
+}
+
+.hidden {
+    display: none;
 }

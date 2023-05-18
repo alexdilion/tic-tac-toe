@@ -183,11 +183,13 @@ const gameController = (() => {
 
     const getCurrentPlayer = () => currentPlayer;
     const getPlayers = () => ({player1, player2});
+    const getState = () => playing;
 
     return {
         getCurrentPlayer,
         getPlayers,
         playTurn,
+        getState,
     };
 })();
 
@@ -197,6 +199,6 @@ BUTTONS.forEach((button) => {
     button.addEventListener("click", (e) => {
         let pos = e.target.closest("button").getAttribute("data-position").split("-");
         pos = {x: pos[0], y: pos[1]};
-        gameController.playTurn(pos);
+        if (gameController.getState()) gameController.playTurn(pos);
     });
 });
