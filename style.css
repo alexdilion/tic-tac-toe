@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;800&display=swap");
 
 :root {
-    --page-background: #f3fafd;
+    --page-background: #f8f8f8;
     --button-hover: #dfe6e9;
 }
 
@@ -34,27 +34,38 @@ main {
     align-items: center;
 }
 
+.game-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .game-type-buttons {
     display: flex;
     gap: 1rem;
     justify-content: center;
+    margin-bottom: 2rem;
 }
 
 .game-type-button {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     width: 150px;
     height: 100px;
-    padding: .25rem;
-    background-color: #f3fafd;
+    padding: 0.25rem;
+    background-color: var(--page-background);
     border: 1px solid #2d3436;
     border-radius: 1rem;
     color: #2d3436;
 
-    transition-property: background-color, color, border-color;
-    transition-duration: .2s;
+    transition-property: background-color, color, border-color, outline-color;
+    transition-duration: 0.2s;
     transition-timing-function: ease-out;
+
+    outline: 1px solid transparent;
+    outline-offset: 2px;
 }
 
 .game-type-button:hover {
@@ -68,10 +79,60 @@ main {
 .game-type-button[data-selected="true"] {
     color: #0984e3;
     border-color: #0984e3;
+    outline-color: #0984e3;
 }
 
 .game-type-button span {
     font-size: 4rem;
+}
+
+.player-name-field {
+    display: flex;
+    flex-direction: column;
+    color: #2d3436;
+    margin-bottom: 1rem;
+    position: relative;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.player-name-field input {
+    padding: 0.25rem 0.75rem;
+    color: #2d3436;
+    border: 1px solid #2d3436;
+    border-radius: 0.5rem;
+    font-size: 1.25rem;
+    background-color: var(--page-background);
+    width: 90%;
+}
+
+.player-name-field label {
+    position: relative;
+    left: 0.75rem;
+    font-size: 1.25rem;
+}
+
+.form-submit-button {
+    padding: 0.5rem 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-top: 1rem;
+
+    border: 1px solid currentColor;
+    border-radius: 1rem;
+    color: #0984e3;
+    background-color: var(--page-background);
+
+    transition-property: background-color, color, border-color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.form-submit-button:hover {
+    background-color: #0984e3;
+    color: var(--page-background);
+    border-color: #0984e3;
+    cursor: pointer;
 }
 
 .info-container {
@@ -162,15 +223,6 @@ footer a img {
     width: 30px;
 }
 
-footer {
-    text-align: center;
-}
-
-footer p {
-    margin: 0 0 0.5rem;
-    color: #2d3436;
-}
-
 footer a,
 footer svg {
     transition: color 0.25s ease-out;
@@ -187,7 +239,7 @@ footer a {
 
 footer a:hover,
 footer a:hover svg {
-    color: #0984e3;
+    color: #d63031;
 }
 
 .transparent {

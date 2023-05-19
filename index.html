@@ -19,25 +19,24 @@
             <div class="game-form">
                 <form action="">
                     <div class="game-type-buttons">
-                        <button type="button" class="game-type-button" id="1player-game" data-selected="true">
-                            <span class="material-symbols-outlined">person</span>
-                            Player vs. Player
-                        </button>
-
-                        <button type="button" class="game-type-button" id="2player-game" data-selected="false">
+                        <button type="button" class="game-type-button" id="2player-game" data-selected="true">
                             <span class="material-symbols-outlined">smart_toy</span>
                             Player vs. CPU
                         </button>
+                        <button type="button" class="game-type-button" id="1player-game" data-selected="false">
+                            <span class="material-symbols-outlined">person</span>
+                            Player vs. Player
+                        </button>
                     </div>
-                    <div class="player-name-container">
+                    <div class="player-name-field">
                         <label for="1player-button">Player 1 Name</label>
                         <input type="text" name="player1-name" id="player1-name" />
                     </div>
-                    <div class="player-name-container">
+                    <div class="player-name-field">
                         <label for="1player-button">Player 2 Name</label>
-                        <input type="text" name="player2-name" id="player2-name" />
+                        <input type="text" name="player2-name" id="player2-name" disabled value="CPU" />
                     </div>
-                    <button type="submit">Play</button>
+                    <button type="button" class="form-submit-button">Play</button>
                 </form>
             </div>
 
@@ -86,13 +85,6 @@
             </div>
         </main>
         <footer>
-            <p>
-                Alexander Dilion &copy;
-                <script>
-                    const year = new Date().getFullYear();
-                    document.write(year);
-                </script>
-            </p>
             <a href="https://github.com/alexdilion/tic-tac-toe">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
                     <path
