@@ -18,14 +18,25 @@
         <main>
             <div class="game-form">
                 <form action="">
-                    <label for="1player-button">Player vs. Player</label>
-                    <input type="radio" name="game-type" id="2player-button" value="2players" />
-                    <label for="1player-button">Player vs. CPU</label>
-                    <input type="radio" name="game-type" id="1player-button" value="1player" />
-                    <label for="1player-button">Player 1 Name</label>
-                    <input type="text" name="player1-name" id="player1-name" />
-                    <label for="1player-button">Player 2 Name</label>
-                    <input type="text" name="player2-name" id="player2-name" />
+                    <div class="game-type-buttons">
+                        <button type="button" class="game-type-button" id="1player-game" data-selected="true">
+                            <span class="material-symbols-outlined">person</span>
+                            Player vs. Player
+                        </button>
+
+                        <button type="button" class="game-type-button" id="2player-game" data-selected="false">
+                            <span class="material-symbols-outlined">smart_toy</span>
+                            Player vs. CPU
+                        </button>
+                    </div>
+                    <div class="player-name-container">
+                        <label for="1player-button">Player 1 Name</label>
+                        <input type="text" name="player1-name" id="player1-name" />
+                    </div>
+                    <div class="player-name-container">
+                        <label for="1player-button">Player 2 Name</label>
+                        <input type="text" name="player2-name" id="player2-name" />
+                    </div>
                     <button type="submit">Play</button>
                 </form>
             </div>

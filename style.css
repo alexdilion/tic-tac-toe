@@ -34,9 +34,44 @@ main {
     align-items: center;
 }
 
-.game-form button {
-    font-weight: 900;
-    color:#2d3436;
+.game-type-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.game-type-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 150px;
+    height: 100px;
+    padding: .25rem;
+    background-color: #f3fafd;
+    border: 1px solid #2d3436;
+    border-radius: 1rem;
+    color: #2d3436;
+
+    transition-property: background-color, color, border-color;
+    transition-duration: .2s;
+    transition-timing-function: ease-out;
+}
+
+.game-type-button:hover {
+    border-color: #0984e3;
+}
+
+.game-type-button:active {
+    background-color: #dfe6e9;
+}
+
+.game-type-button[data-selected="true"] {
+    color: #0984e3;
+    border-color: #0984e3;
+}
+
+.game-type-button span {
+    font-size: 4rem;
 }
 
 .info-container {
@@ -88,7 +123,7 @@ main {
     appearance: none;
     border: none;
     background-color: var(--page-background);
-    transition: background-color 0.2s ease-out;
+    transition: background-color 0.25s ease-out;
 
     max-width: 150px;
     max-height: 150px;
@@ -132,13 +167,13 @@ footer {
 }
 
 footer p {
-    margin: 0 0 .5rem;
+    margin: 0 0 0.5rem;
     color: #2d3436;
 }
 
 footer a,
 footer svg {
-    transition: color .25s ease-out;
+    transition: color 0.25s ease-out;
 }
 
 footer a {
