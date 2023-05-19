@@ -106,6 +106,10 @@ main {
     width: 90%;
 }
 
+.player-name-field input:disabled {
+    background-color: var(--button-hover);
+}
+
 .player-name-field label {
     position: relative;
     left: 0.75rem;
