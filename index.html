@@ -19,21 +19,21 @@
             <div class="game-form">
                 <form action="">
                     <div class="game-type-buttons">
-                        <button type="button" class="game-type-button" id="2player-game" data-selected="true">
+                        <button type="button" class="game-type-button" id="toggle-1player" data-selected="true">
                             <span class="material-symbols-outlined">smart_toy</span>
                             Player vs. CPU
                         </button>
-                        <button type="button" class="game-type-button" id="1player-game" data-selected="false">
+                        <button type="button" class="game-type-button" id="toggle-2player" data-selected="false">
                             <span class="material-symbols-outlined">person</span>
                             Player vs. Player
                         </button>
                     </div>
                     <div class="player-name-field">
-                        <label for="1player-button">Player 1 Name</label>
-                        <input type="text" name="player1-name" id="player1-name" />
+                        <label for="player1-name">Player 1 Name</label>
+                        <input type="text" name="player1-name" id="player1-name" value="Player 1"/>
                     </div>
                     <div class="player-name-field">
-                        <label for="1player-button">Player 2 Name</label>
+                        <label for="player2-name">Player 2 Name</label>
                         <input type="text" name="player2-name" id="player2-name" disabled value="CPU" />
                     </div>
                     <button type="button" class="form-submit-button">Play</button>

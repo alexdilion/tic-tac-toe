@@ -1,5 +1,7 @@
 const DISPLAY = document.querySelector("#board");
+const FORM = document.querySelector(".game-form");
 const BUTTONS = DISPLAY.querySelectorAll(".board-button");
+const FORM_TOGGLES = FORM.querySelectorAll(".game-type-button");
 
 const gameBoard = (() => {
     // An empty string represents an empty tile
@@ -49,7 +51,7 @@ const gameBoard = (() => {
 
         if (win) return "win";
         if (tilesTaken === 9) return "tie";
-        
+
         return "continue";
     };
 
@@ -64,7 +66,7 @@ const gameBoard = (() => {
 const displayController = ((display) => {
     const updateDisplay = () => {
         const boardArray = gameBoard.getBoard();
-        const players = gameController.getPlayers()
+        const players = gameController.getPlayers();
         const p1Mark = players.player1.getMark();
         const p2Mark = players.player2.getMark();
 
@@ -99,6 +101,31 @@ const displayController = ((display) => {
         updateDisplay,
     };
 })(DISPLAY);
+
+const formController = ((form) => {
+    const button1Player = form.querySelector("#toggle-1player");
+    const button2Player = form.querySelector("#toggle-2player");
+
+    const gameTypeToggle = (button) => {
+        if (button.getAttribute("data-selected") === "false") {
+            if (button === button1Player) {
+                button1Player.setAttribute("data-selected", "true");
+                FORM.querySelector("#player2-name").disabled = true;
+                FORM.querySelector("#player2-name").value = "CPU";
+                button2Player.setAttribute("data-selected", "false");
+            } else if (button === button2Player) {
+                button2Player.setAttribute("data-selected", "true");
+                FORM.querySelector("#player2-name").disabled = false;
+                FORM.querySelector("#player2-name").value = "Player 2";
+                button1Player.setAttribute("data-selected", "false");
+            }
+        }
+    };
+
+    return {
+        gameTypeToggle,
+    };
+})(FORM);
 
 const Player = (playerNumber, playerName, playerMark) => {
     let name = playerName;
@@ -200,5 +227,11 @@ BUTTONS.forEach((button) => {
         let pos = e.target.closest("button").getAttribute("data-position").split("-");
         pos = {x: pos[0], y: pos[1]};
         if (gameController.getState()) gameController.playTurn(pos);
+    });
+});
+
+FORM_TOGGLES.forEach((button) => {
+    button.addEventListener("click", (e) => {
+        formController.gameTypeToggle(e.target.closest("button"));
     });
 });

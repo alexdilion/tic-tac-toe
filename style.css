@@ -84,6 +84,7 @@ main {
 
 .game-type-button span {
     font-size: 4rem;
+    user-select: none;
 }
 
 .player-name-field {
@@ -211,7 +212,6 @@ main {
     font-weight: 900;
     font-size: clamp(4rem, 0rem + 12.8vw, 6rem);
     transition: opacity 0.25s ease-out;
-    user-select: none;
 }
 
 .player1-color {
