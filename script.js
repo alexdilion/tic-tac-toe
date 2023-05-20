@@ -4,6 +4,8 @@ const FORM = document.querySelector(".game-form");
 const BUTTONS = DISPLAY.querySelectorAll(".board-button");
 const FORM_TOGGLES = FORM.querySelectorAll(".game-type-button");
 const FORM_SUBMIT = FORM.querySelector(".form-submit-button");
+const GAME_OVER_CONTAINER = document.querySelector(".game-over-container");
+const PLAY_AGAIN = GAME_OVER_CONTAINER.querySelector(".form-submit-button");
 
 const gameBoard = (() => {
     // An empty string represents an empty tile
@@ -99,8 +101,33 @@ const displayController = ((display) => {
         document.querySelector(".player2-info .name").textContent = players.player2.getName();
     };
 
+    const hideForm = () => {
+        FORM.classList.add("hidden");
+        GAME_CONTAINER.classList.remove("hidden")
+    };
+
+    const showForm = () => {
+        FORM.classList.remove("hidden");
+        GAME_CONTAINER.classList.add("hidden");
+        GAME_OVER_CONTAINER.classList.add("hidden");
+    };
+
+    const showGameOverScreen = () => {
+        GAME_OVER_CONTAINER.classList.remove("hidden");
+        FORM.classList.add("hidden");
+        GAME_CONTAINER.classList.add("hidden");
+    };
+
+    const hideGameOverScreen = () => {
+        GAME_OVER_CONTAINER.classList.add("hidden");
+    };
+
     return {
         updateDisplay,
+        hideForm,
+        showForm,
+        showGameOverScreen,
+        hideGameOverScreen,
     };
 })(DISPLAY);
 
@@ -126,11 +153,6 @@ const formController = (() => {
         }
     };
 
-    const hideForm = () => {
-        FORM.classList.add("hidden");
-        GAME_CONTAINER.classList.remove("hidden");
-    };
-
     const submitForm = () => {
         const twoPlayerGame = button2Player.getAttribute("data-selected") === "true";
 
@@ -151,7 +173,7 @@ const formController = (() => {
         gameController.setPlayer1(player1);
         gameController.setPlayer2(player2);
 
-        hideForm();
+        displayController.hideForm();
         displayController.updateDisplay();
     };
 
@@ -188,6 +210,10 @@ const Player = (playerNumber, playerName, playerMark) => {
         score += 1;
     };
 
+    const resetScore = () => {
+        score = 0;
+    };
+
     return {
         placeMark,
         getName,
@@ -197,6 +223,7 @@ const Player = (playerNumber, playerName, playerMark) => {
         setName,
         setMark,
         incrementScore,
+        resetScore,
     };
 };
 
@@ -225,6 +252,15 @@ const gameController = (() => {
         playing = true;
     };
 
+    const restartGame = () => {
+        player1.resetScore();
+        player2.resetScore();
+        playing = true;
+
+        gameBoard.clear();
+        displayController.updateDisplay();
+    }
+
     // Main round logic happens here
     const playTurn = (position) => {
         if (!isValidMove(position)) return;
@@ -237,8 +273,16 @@ const gameController = (() => {
 
         if (turnResult === "tie" || turnResult === "win") {
             if (turnResult === "win") currentPlayer.incrementScore();
-            playing = false;
-            setTimeout(newRound, 500);
+
+            if (currentPlayer.getScore() === winningScore) {
+                playing = false;
+                setTimeout(() => {
+                    displayController.showGameOverScreen()
+                }, 1000);
+            } else {
+                playing = false;
+                setTimeout(newRound, 500);
+            }
         } else {
             changePlayer();
         }
@@ -247,10 +291,10 @@ const gameController = (() => {
     const getCurrentPlayer = () => currentPlayer;
     const getPlayers = () => ({player1, player2});
     const getState = () => playing;
-    
+
     const setWinningScore = (newValue) => {
         winningScore = newValue;
-    }
+    };
 
     const setPlayer1 = (newValue) => {
         player1 = newValue;
@@ -262,9 +306,10 @@ const gameController = (() => {
     };
 
     return {
+        restartGame,
+        playTurn,
         getCurrentPlayer,
         getPlayers,
-        playTurn,
         getState,
         setPlayer1,
         setPlayer2,
@@ -290,3 +335,8 @@ FORM_SUBMIT.addEventListener("click", (event) => {
     event.preventDefault();
     formController.submitForm();
 });
+
+PLAY_AGAIN.addEventListener("click", () => {
+    displayController.showForm();
+    gameController.restartGame();
+})
