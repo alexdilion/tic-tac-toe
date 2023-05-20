@@ -93,8 +93,8 @@ const displayController = ((display) => {
         });
 
         // Update player info
-        document.querySelector(".player1-info .score").textContent = players.player1.getWins();
-        document.querySelector(".player2-info .score").textContent = players.player2.getWins();
+        document.querySelector(".player1-info .score").textContent = players.player1.getScore();
+        document.querySelector(".player2-info .score").textContent = players.player2.getScore();
         document.querySelector(".player1-info .name").textContent = players.player1.getName();
         document.querySelector(".player2-info .name").textContent = players.player2.getName();
     };
@@ -164,7 +164,7 @@ const formController = (() => {
 const Player = (playerNumber, playerName, playerMark) => {
     let name = playerName;
     let mark = playerMark;
-    let wins = 0;
+    let score = 0;
     const number = playerNumber;
 
     const placeMark = (position) => {
@@ -173,7 +173,7 @@ const Player = (playerNumber, playerName, playerMark) => {
 
     const getName = () => name;
     const getMark = () => mark;
-    const getWins = () => wins;
+    const getScore = () => score;
     const getNumber = () => number;
 
     const setName = (newName) => {
@@ -184,19 +184,19 @@ const Player = (playerNumber, playerName, playerMark) => {
         mark = newMark;
     };
 
-    const addWin = () => {
-        wins += 1;
+    const incrementScore = () => {
+        score += 1;
     };
 
     return {
         placeMark,
         getName,
         getMark,
-        getWins,
+        getScore,
         getNumber,
         setName,
         setMark,
-        addWin,
+        incrementScore,
     };
 };
 
@@ -206,6 +206,7 @@ const gameController = (() => {
 
     let currentPlayer = player1;
     let playing = true;
+    let winningScore = 3; // First player to this score wins
 
     const changePlayer = () => {
         currentPlayer = currentPlayer === player1 ? (currentPlayer = player2) : (currentPlayer = player1);
@@ -224,6 +225,7 @@ const gameController = (() => {
         playing = true;
     };
 
+    // Main round logic happens here
     const playTurn = (position) => {
         if (!isValidMove(position)) return;
         if (!playing) return;
@@ -234,7 +236,7 @@ const gameController = (() => {
         const turnResult = gameBoard.checkBoard();
 
         if (turnResult === "tie" || turnResult === "win") {
-            if (turnResult === "win") currentPlayer.addWin();
+            if (turnResult === "win") currentPlayer.incrementScore();
             playing = false;
             setTimeout(newRound, 500);
         } else {
@@ -245,14 +247,18 @@ const gameController = (() => {
     const getCurrentPlayer = () => currentPlayer;
     const getPlayers = () => ({player1, player2});
     const getState = () => playing;
+    
+    const setWinningScore = (newValue) => {
+        winningScore = newValue;
+    }
 
-    const setPlayer1 = (newPlayer1) => {
-        player1 = newPlayer1;
+    const setPlayer1 = (newValue) => {
+        player1 = newValue;
         currentPlayer = player1;
     };
 
-    const setPlayer2 = (newPlayer2) => {
-        player2 = newPlayer2;
+    const setPlayer2 = (newValue) => {
+        player2 = newValue;
     };
 
     return {
