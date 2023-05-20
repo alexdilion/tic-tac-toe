@@ -103,7 +103,7 @@ const displayController = ((display) => {
 
     const hideForm = () => {
         FORM.classList.add("hidden");
-        GAME_CONTAINER.classList.remove("hidden")
+        GAME_CONTAINER.classList.remove("hidden");
     };
 
     const showForm = () => {
@@ -116,6 +116,12 @@ const displayController = ((display) => {
         GAME_OVER_CONTAINER.classList.remove("hidden");
         FORM.classList.add("hidden");
         GAME_CONTAINER.classList.add("hidden");
+
+        const players = gameController.getPlayers();
+
+        GAME_OVER_CONTAINER.querySelector(".winner-name").textContent = gameController.getCurrentPlayer().getName();
+        GAME_OVER_CONTAINER.querySelector(".player1-score").textContent = players.player1.getScore();
+        GAME_OVER_CONTAINER.querySelector(".player2-score").textContent = players.player2.getScore();
     };
 
     const hideGameOverScreen = () => {
@@ -259,7 +265,7 @@ const gameController = (() => {
 
         gameBoard.clear();
         displayController.updateDisplay();
-    }
+    };
 
     // Main round logic happens here
     const playTurn = (position) => {
@@ -277,7 +283,7 @@ const gameController = (() => {
             if (currentPlayer.getScore() === winningScore) {
                 playing = false;
                 setTimeout(() => {
-                    displayController.showGameOverScreen()
+                    displayController.showGameOverScreen();
                 }, 1000);
             } else {
                 playing = false;
@@ -339,4 +345,4 @@ FORM_SUBMIT.addEventListener("click", (event) => {
 PLAY_AGAIN.addEventListener("click", () => {
     displayController.showForm();
     gameController.restartGame();
-})
+});
