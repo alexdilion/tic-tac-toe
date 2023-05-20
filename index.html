@@ -16,7 +16,7 @@
             <h1 class="title">Tic Tac Toe</h1>
         </header>
         <main>
-            <div class="game-form">
+            <div class="game-form hidden">
                 <form action="">
                     <div class="game-type-buttons">
                         <button type="button" class="game-type-button" id="toggle-2player" data-selected="true">
@@ -81,6 +81,22 @@
                             <span class="material-symbols-outlined transparent"></span>
                         </button>
                     </div>
+                </div>
+            </div>
+
+            <div class="game-over-container">
+                <div class="game-over">
+                    <h1><span class="winner-name player2-color">Player 2</span> wins!</h1>
+                    <div class="scores">
+                        <span class="player1-score player1-color">3</span>
+                        <span class="score-separator">-</span>
+                        <span class="player2-score player2-color">5</span>
+                    </div>
+                    <button type="button">Play Again</button>
+                </div>
+                <div class="confetti-container">
+                    <span id="confetti-left"></span>
+                    <span id="confetti-right"></span>
                 </div>
             </div>
         </main>
