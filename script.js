@@ -1,7 +1,9 @@
 const DISPLAY = document.querySelector("#board");
+const GAME_CONTAINER = document.querySelector(".game-container");
 const FORM = document.querySelector(".game-form");
 const BUTTONS = DISPLAY.querySelectorAll(".board-button");
 const FORM_TOGGLES = FORM.querySelectorAll(".game-type-button");
+const FORM_SUBMIT = FORM.querySelector(".form-submit-button");
 
 const gameBoard = (() => {
     // An empty string represents an empty tile
@@ -102,9 +104,11 @@ const displayController = ((display) => {
     };
 })(DISPLAY);
 
-const formController = ((form) => {
-    const button1Player = form.querySelector("#toggle-1player");
-    const button2Player = form.querySelector("#toggle-2player");
+const formController = (() => {
+    const button1Player = FORM.querySelector("#toggle-1player");
+    const button2Player = FORM.querySelector("#toggle-2player");
+    const textPlayer1Name = FORM.querySelector("#player1-name");
+    const textPlayer2Name = FORM.querySelector("#player2-name");
 
     const gameTypeToggle = (button) => {
         if (button.getAttribute("data-selected") === "false") {
@@ -122,10 +126,40 @@ const formController = ((form) => {
         }
     };
 
+    const hideForm = () => {
+        FORM.classList.add("hidden");
+        GAME_CONTAINER.classList.remove("hidden");
+    };
+
+    const submitForm = () => {
+        const twoPlayerGame = button2Player.getAttribute("data-selected") === "true";
+
+        const isValidName = (playerName) => playerName !== "";
+
+        const player1Name = isValidName(textPlayer1Name.value) ? textPlayer1Name.value : "Player 1";
+        const player1 = Player(1, player1Name, "close");
+
+        let player2;
+
+        if (twoPlayerGame) {
+            const player2Name = isValidName(textPlayer2Name.value) ? textPlayer2Name.value : "Player 2";
+            player2 = Player(2, player2Name, "circle");
+        } else {
+            // Make an AI object
+        }
+
+        gameController.setPlayer1(player1);
+        gameController.setPlayer2(player2);
+
+        hideForm();
+        displayController.updateDisplay();
+    };
+
     return {
         gameTypeToggle,
+        submitForm,
     };
-})(FORM);
+})();
 
 const Player = (playerNumber, playerName, playerMark) => {
     let name = playerName;
@@ -167,8 +201,8 @@ const Player = (playerNumber, playerName, playerMark) => {
 };
 
 const gameController = (() => {
-    const player1 = Player(1, "Alex", "close");
-    const player2 = Player(2, "CPU", "circle");
+    let player1;
+    let player2;
 
     let currentPlayer = player1;
     let playing = true;
@@ -212,15 +246,24 @@ const gameController = (() => {
     const getPlayers = () => ({player1, player2});
     const getState = () => playing;
 
+    const setPlayer1 = (newPlayer1) => {
+        player1 = newPlayer1;
+        currentPlayer = player1;
+    };
+
+    const setPlayer2 = (newPlayer2) => {
+        player2 = newPlayer2;
+    };
+
     return {
         getCurrentPlayer,
         getPlayers,
         playTurn,
         getState,
+        setPlayer1,
+        setPlayer2,
     };
 })();
-
-displayController.updateDisplay();
 
 BUTTONS.forEach((button) => {
     button.addEventListener("click", (e) => {
@@ -232,6 +275,12 @@ BUTTONS.forEach((button) => {
 
 FORM_TOGGLES.forEach((button) => {
     button.addEventListener("click", (e) => {
+        if (e.target.closest("button").disabled) return;
         formController.gameTypeToggle(e.target.closest("button"));
     });
+});
+
+FORM_SUBMIT.addEventListener("click", (event) => {
+    event.preventDefault();
+    formController.submitForm();
 });

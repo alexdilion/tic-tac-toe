@@ -80,6 +80,29 @@ main {
     background-color: #dfe6e9;
 }
 
+.game-type-button:disabled {
+    background-color: #dfe6e9;
+    position: relative;
+}
+
+.game-type-button:disabled::after {
+    background-color: #d63031;
+    content: "WIP";
+    color: #f8f8f8;
+    padding: 3px 8px;
+    font-weight: 900;
+    border-radius: 4px;
+
+    position: absolute;
+    right: 50%;
+    top: -30px;
+    transform: translateX(50%);
+}
+
+.game-type-button:disabled:hover {
+    border-color: #d63031;
+}
+
 .game-type-button[data-selected="true"] {
     color: #0984e3;
     border-color: #0984e3;
@@ -160,7 +183,7 @@ main {
 }
 
 .score {
-    width: 2.5rem;
+    padding: 0.1rem 0.5rem;
     text-align: center;
     color: white;
     border-radius: 5px;
