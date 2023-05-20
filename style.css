@@ -247,6 +247,24 @@ main {
     color: #d63031;
 }
 
+.game-over {
+    color: #2d3436;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.game-over h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    font-variant: small-caps;
+}
+
+.game-over .scores {
+    font-size: 2.5rem;
+    font-weight: 900;
+}
+
 footer a img {
     height: 30px;
     width: 30px;
