@@ -1,9 +1,12 @@
 const DISPLAY = document.querySelector("#board");
 const GAME_CONTAINER = document.querySelector(".game-container");
+
 const FORM = document.querySelector(".game-form");
 const BUTTONS = DISPLAY.querySelectorAll(".board-button");
 const FORM_TOGGLES = FORM.querySelectorAll(".game-type-button");
+const WINNING_SCORE_COMBO = FORM.querySelector("#winning-score-combo");
 const FORM_SUBMIT = FORM.querySelector(".form-submit-button");
+
 const GAME_OVER_CONTAINER = document.querySelector(".game-over-container");
 const PLAY_AGAIN = GAME_OVER_CONTAINER.querySelector(".form-submit-button");
 
@@ -183,9 +186,14 @@ const formController = (() => {
         displayController.updateDisplay();
     };
 
+    const updateWinningScore = () => {
+        gameController.setWinningScore(+WINNING_SCORE_COMBO.value);
+    }
+
     return {
         gameTypeToggle,
         submitForm,
+        updateWinningScore,
     };
 })();
 
@@ -298,6 +306,7 @@ const gameController = (() => {
     const getCurrentPlayer = () => currentPlayer;
     const getPlayers = () => ({player1, player2});
     const getState = () => playing;
+    const getWinningScore = () => winningScore;
 
     const setWinningScore = (newValue) => {
         winningScore = newValue;
@@ -318,8 +327,10 @@ const gameController = (() => {
         getCurrentPlayer,
         getPlayers,
         getState,
+        getWinningScore,
         setPlayer1,
         setPlayer2,
+        setWinningScore,
     };
 })();
 
@@ -347,3 +358,5 @@ PLAY_AGAIN.addEventListener("click", () => {
     displayController.showForm();
     gameController.restartGame();
 });
+
+WINNING_SCORE_COMBO.addEventListener("change", formController.updateWinningScore)
