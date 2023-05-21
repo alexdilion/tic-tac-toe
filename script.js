@@ -282,9 +282,10 @@ const gameController = (() => {
 
             if (currentPlayer.getScore() === winningScore) {
                 playing = false;
+                // play win sound and throw confetti
                 setTimeout(() => {
                     displayController.showGameOverScreen();
-                }, 1000);
+                }, 500);
             } else {
                 playing = false;
                 setTimeout(newRound, 500);

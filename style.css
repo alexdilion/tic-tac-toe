@@ -34,8 +34,11 @@ button:hover {
 
 main {
     flex-grow: 1;
-    display: flex;
-    align-items: center;
+    /* display: flex;
+    align-items: center; */
+    display: grid;
+    grid-template: "center" 1fr / 1fr;
+    place-items: center;
 }
 
 .game-form form {
@@ -289,10 +292,19 @@ footer a:hover svg {
     color: #d63031;
 }
 
+.game-form,
+.game-over-container,
+.game-container {
+    transition: opacity .25s ease-in-out;
+    grid-area: center;
+}
+
 .transparent {
     opacity: 0;
 }
 
 .hidden {
-    display: none;
+    /* display: none; */
+    opacity: 0;
+    pointer-events: none;
 }
