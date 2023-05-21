@@ -122,8 +122,19 @@ const displayController = ((display) => {
         GAME_CONTAINER.classList.add("hidden");
 
         const players = gameController.getPlayers();
+        const winnerName = GAME_OVER_CONTAINER.querySelector(".winner-name");
+        const currentPlayer = gameController.getCurrentPlayer();
 
-        GAME_OVER_CONTAINER.querySelector(".winner-name").textContent = gameController.getCurrentPlayer().getName();
+        winnerName.textContent = currentPlayer.getName();
+
+        if (currentPlayer === players.player1) {
+            winnerName.classList.add("player1-color");
+            winnerName.classList.remove("player2-color");
+        } else {
+            winnerName.classList.add("player2-color");
+            winnerName.classList.remove("player1-color");
+        }
+
         GAME_OVER_CONTAINER.querySelector(".player1-score").textContent = players.player1.getScore();
         GAME_OVER_CONTAINER.querySelector(".player2-score").textContent = players.player2.getScore();
     };
