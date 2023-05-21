@@ -23,20 +23,32 @@
                             <span class="material-symbols-outlined">person</span>
                             Player vs. Player
                         </button>
-                        <button type="button" class="game-type-button" id="toggle-1player" data-selected="false" disabled>
+                        <button type="button" class="game-type-button" id="toggle-1player" data-selected="false">
                             <span class="material-symbols-outlined">smart_toy</span>
                             Player vs. CPU
                         </button>
                     </div>
-                    <div class="winning-score-container">
-                        <label for="winning-score-combo">First to </label>
-                        <select name="winning-score" id="winning-score-combo">
-                            <option value="3">3</option>
-                            <option value="5">5</option>
-                            <option value="9">9</option>
-                            <option value="15">15</option>
-                        </select>
-                        <span>wins</span>
+                    <div class="combos">
+                        <div class="combo-container">
+                            <label for="winning-score-combo">First to </label>
+                            <select name="winning-score" class="combo" id="winning-score-combo">
+                                <option value="3">3</option>
+                                <option value="5">5</option>
+                                <option value="9">9</option>
+                                <option value="15">15</option>
+                            </select>
+                            <span>wins</span>
+                        </div>
+                        <div class="combo-container transparent">
+                            <div class="ai-difficulty-container combo-container">
+                                <label for="ai-difficulty">AI difficulty:</label>
+                                <select name="ai-difficulty" class="combo" id="ai-difficulty">
+                                    <option value="easy">Easy</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="hard">Hard</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="player-name-field">
                         <label for="player1-name">Player 1 Name</label>
