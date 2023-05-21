@@ -107,6 +107,7 @@ const displayController = ((display) => {
     const hideForm = () => {
         FORM.classList.add("hidden");
         GAME_CONTAINER.classList.remove("hidden");
+        GAME_CONTAINER.querySelector(".winning-score").textContent = gameController.getWinningScore();
     };
 
     const showForm = () => {

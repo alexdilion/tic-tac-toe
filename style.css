@@ -192,7 +192,6 @@ main {
 .info-container {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 1rem;
     font-size: 1.5rem;
     color: #2d3436;
     font-weight: 900;
@@ -225,6 +224,7 @@ main {
     background-color: var(--page-background);
     border-radius: 1rem;
     padding: 1rem;
+    margin: 1rem 0;
 }
 
 #board {
@@ -260,6 +260,13 @@ main {
     font-weight: 900;
     font-size: clamp(4rem, 0rem + 12.8vw, 6rem);
     transition: opacity 0.25s ease-out;
+}
+
+.winning-score-reminder {
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: #2d3436;
+    text-align: center;
 }
 
 .player1-color {
