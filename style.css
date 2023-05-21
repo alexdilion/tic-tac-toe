@@ -115,16 +115,17 @@ main {
     user-select: none;
 }
 
-.winning-score-container {
+.combos {
     color: #2d3436;
     font-size: 1.25rem;
     margin-bottom: 2rem;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1rem;
+    flex-direction: column;
 }
 
-#winning-score-combo {
+.combo {
     color: #2d3436;
     background-color: #f8f8f8;
     border: 1px solid #2d3436;
@@ -133,7 +134,7 @@ main {
     font-size: 1.25rem;
 }
 
-#winning-score-combo:hover {
+.combo:hover {
     background-color: #dfe6e9;
 }
 
@@ -321,7 +322,8 @@ footer a:hover svg {
 
 .game-form,
 .game-over-container,
-.game-container {
+.game-container,
+.combo-container {
     transition: opacity 0.25s ease-in-out;
     grid-area: center;
 }
