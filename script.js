@@ -5,6 +5,8 @@ const FORM = document.querySelector(".game-form");
 const BUTTONS = DISPLAY.querySelectorAll(".board-button");
 const FORM_TOGGLES = FORM.querySelectorAll(".game-type-button");
 const WINNING_SCORE_COMBO = FORM.querySelector("#winning-score-combo");
+const AI_DIFFICULTY_COMBO = FORM.querySelector("#ai-difficulty");
+const AI_COMBO_CONTAINER = AI_DIFFICULTY_COMBO.closest(".combo-container");
 const FORM_SUBMIT = FORM.querySelector(".form-submit-button");
 
 const GAME_OVER_CONTAINER = document.querySelector(".game-over-container");
@@ -165,11 +167,13 @@ const formController = (() => {
                 FORM.querySelector("#player2-name").disabled = true;
                 FORM.querySelector("#player2-name").value = "CPU";
                 button2Player.setAttribute("data-selected", "false");
+                AI_COMBO_CONTAINER.classList.remove("transparent");
             } else if (button === button2Player) {
                 button2Player.setAttribute("data-selected", "true");
                 FORM.querySelector("#player2-name").disabled = false;
                 FORM.querySelector("#player2-name").value = "Player 2";
                 button1Player.setAttribute("data-selected", "false");
+                AI_COMBO_CONTAINER.classList.add("transparent");
             }
         }
     };
@@ -188,24 +192,24 @@ const formController = (() => {
             const player2Name = isValidName(textPlayer2Name.value) ? textPlayer2Name.value : "Player 2";
             player2 = Player(2, player2Name, "circle");
         } else {
-            // Make an AI object
+            player2 = aiPlayer(AI_DIFFICULTY_COMBO.value);
         }
 
         gameController.setPlayer1(player1);
         gameController.setPlayer2(player2);
+        gameController.setWinningScore(+WINNING_SCORE_COMBO.value);
 
         displayController.hideForm();
         displayController.updateDisplay();
     };
 
-    const updateWinningScore = () => {
-        gameController.setWinningScore(+WINNING_SCORE_COMBO.value);
-    }
+    // const updateWinningScore = () => {
+    // };
 
     return {
         gameTypeToggle,
         submitForm,
-        updateWinningScore,
+        // updateWinningScore,
     };
 })();
 
@@ -223,6 +227,7 @@ const Player = (playerNumber, playerName, playerMark) => {
     const getMark = () => mark;
     const getScore = () => score;
     const getNumber = () => number;
+    const isAi = () => false;
 
     const setName = (newName) => {
         name = newName;
@@ -246,11 +251,20 @@ const Player = (playerNumber, playerName, playerMark) => {
         getMark,
         getScore,
         getNumber,
+        isAi,
         setName,
         setMark,
         incrementScore,
         resetScore,
     };
+};
+
+const aiPlayer = (difficulty) => {
+    const prototype = Player(2, "CPU", "circle");
+
+    const isAi = () => true;
+
+    return { ...prototype, isAi};
 };
 
 const gameController = (() => {
@@ -302,7 +316,6 @@ const gameController = (() => {
 
             if (currentPlayer.getScore() === winningScore) {
                 playing = false;
-                // play win sound and throw confetti
                 setTimeout(() => {
                     displayController.showGameOverScreen();
                 }, 500);
@@ -371,4 +384,4 @@ PLAY_AGAIN.addEventListener("click", () => {
     gameController.restartGame();
 });
 
-WINNING_SCORE_COMBO.addEventListener("change", formController.updateWinningScore)
+// WINNING_SCORE_COMBO.addEventListener("change", formController.updateWinningScore);

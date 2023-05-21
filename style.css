@@ -330,6 +330,7 @@ footer a:hover svg {
 
 .transparent {
     opacity: 0;
+    pointer-events: none;
 }
 
 .hidden {
