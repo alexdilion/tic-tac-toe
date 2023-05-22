@@ -277,8 +277,8 @@ const aiPlayer = (difficulty) => {
         const validMoves = gameBoard.getEmptyCells();
         const randomNumber = random(validMoves.length);
         const position = validMoves[randomNumber];
-        
-        prototype.placeMark(position);
+
+        if (position) prototype.placeMark(position);
     };
 
     const isAi = () => true;
@@ -321,6 +321,21 @@ const gameController = (() => {
         displayController.updateDisplay();
     };
 
+    const checkRoundOver = (turnResult) => {
+        if (turnResult === "continue" || !playing) return;
+        if (turnResult === "win") currentPlayer.incrementScore();
+
+        if (currentPlayer.getScore() === winningScore) {
+            playing = false;
+            setTimeout(() => {
+                displayController.showGameOverScreen();
+            }, 500);
+        } else {
+            playing = false;
+            setTimeout(newRound, 500);
+        }
+    };
+
     // Main round logic happens here
     const playTurn = (position) => {
         if (!playing) return;
@@ -328,23 +343,17 @@ const gameController = (() => {
 
         currentPlayer.placeMark(position);
 
-        const turnResult = gameBoard.checkBoard();
+        let turnResult = gameBoard.checkBoard();
+        checkRoundOver(turnResult);
 
-        if (turnResult === "tie" || turnResult === "win") {
-            if (turnResult === "win") currentPlayer.incrementScore();
-
-            if (currentPlayer.getScore() === winningScore) {
-                playing = false;
-                setTimeout(() => {
-                    displayController.showGameOverScreen();
-                }, 500);
-            } else {
-                playing = false;
-                setTimeout(newRound, 500);
-            }
-        } else {
+        if (aiGame) {
             changePlayer();
+            currentPlayer.makeMove();
+            turnResult = gameBoard.checkBoard();
+            checkRoundOver(turnResult);
         }
+
+        changePlayer();
     };
 
     const getCurrentPlayer = () => currentPlayer;
