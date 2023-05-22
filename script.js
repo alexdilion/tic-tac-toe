@@ -23,11 +23,20 @@ const gameBoard = (() => {
     let tilesTaken = 0;
 
     const setTile = (position, playerNumber) => {
-        boardArray[position.x][position.y] = playerNumber.toString();
+        boardArray[position.y][position.x] = playerNumber.toString();
         tilesTaken += 1;
     };
 
     const getBoard = () => boardArray;
+
+    const getEmptyCells = () => {
+        const emptyCells = boardArray
+            .map((row, y) => row.map((value, x) => (value === "" ? {x, y} : false)))
+            .flat()
+            .filter((value) => !!value);
+
+        return emptyCells;
+    };
 
     const clear = () => {
         boardArray = [
@@ -66,9 +75,10 @@ const gameBoard = (() => {
 
     return {
         setTile,
+        checkBoard,
         clear,
         getBoard,
-        checkBoard,
+        getEmptyCells,
     };
 })();
 
@@ -80,9 +90,9 @@ const displayController = ((display) => {
         const p2Mark = players.player2.getMark();
 
         // Update each tile according to the board state
-        boardArray.forEach((row, rowIndex) => {
-            row.forEach((val, valIndex) => {
-                const position = `${rowIndex}-${valIndex}`;
+        boardArray.forEach((row, y) => {
+            row.forEach((val, x) => {
+                const position = `${x}-${y}`;
                 const htmlMark = display.querySelector(`button[data-position="${position}"] > span`);
 
                 if (val === "") {
@@ -191,8 +201,10 @@ const formController = (() => {
         if (twoPlayerGame) {
             const player2Name = isValidName(textPlayer2Name.value) ? textPlayer2Name.value : "Player 2";
             player2 = Player(2, player2Name, "circle");
+            gameController.setAiGame(false);
         } else {
             player2 = aiPlayer(AI_DIFFICULTY_COMBO.value);
+            gameController.setAiGame(true);
         }
 
         gameController.setPlayer1(player1);
@@ -203,13 +215,9 @@ const formController = (() => {
         displayController.updateDisplay();
     };
 
-    // const updateWinningScore = () => {
-    // };
-
     return {
         gameTypeToggle,
         submitForm,
-        // updateWinningScore,
     };
 })();
 
@@ -221,6 +229,7 @@ const Player = (playerNumber, playerName, playerMark) => {
 
     const placeMark = (position) => {
         gameBoard.setTile(position, number);
+        displayController.updateDisplay();
     };
 
     const getName = () => name;
@@ -262,14 +271,25 @@ const Player = (playerNumber, playerName, playerMark) => {
 const aiPlayer = (difficulty) => {
     const prototype = Player(2, "CPU", "circle");
 
+    const random = (end) => Math.floor(Math.random() * end);
+
+    const makeMove = () => {
+        const validMoves = gameBoard.getEmptyCells();
+        const randomNumber = random(validMoves.length);
+        const position = validMoves[randomNumber];
+        
+        prototype.placeMark(position);
+    };
+
     const isAi = () => true;
 
-    return { ...prototype, isAi};
+    return {...prototype, isAi, makeMove};
 };
 
 const gameController = (() => {
     let player1;
     let player2;
+    let aiGame;
 
     let currentPlayer = player1;
     let playing = true;
@@ -282,7 +302,7 @@ const gameController = (() => {
     const isValidMove = (position) => {
         const board = gameBoard.getBoard();
 
-        return board[position.x][position.y] === "";
+        return board[position.y][position.x] === "";
     };
 
     const newRound = () => {
@@ -303,11 +323,10 @@ const gameController = (() => {
 
     // Main round logic happens here
     const playTurn = (position) => {
-        if (!isValidMove(position)) return;
         if (!playing) return;
+        if (!isValidMove(position)) return;
 
         currentPlayer.placeMark(position);
-        displayController.updateDisplay();
 
         const turnResult = gameBoard.checkBoard();
 
@@ -346,6 +365,10 @@ const gameController = (() => {
         player2 = newValue;
     };
 
+    const setAiGame = (newValue) => {
+        aiGame = newValue;
+    };
+
     return {
         restartGame,
         playTurn,
@@ -356,14 +379,15 @@ const gameController = (() => {
         setPlayer1,
         setPlayer2,
         setWinningScore,
+        setAiGame,
     };
 })();
 
 BUTTONS.forEach((button) => {
     button.addEventListener("click", (e) => {
-        let pos = e.target.closest("button").getAttribute("data-position").split("-");
-        pos = {x: pos[0], y: pos[1]};
-        if (gameController.getState()) gameController.playTurn(pos);
+        let position = e.target.closest("button").getAttribute("data-position").split("-");
+        position = {x: +position[0], y: +position[1]};
+        if (gameController.getState()) gameController.playTurn(position);
     });
 });
 
@@ -383,5 +407,3 @@ PLAY_AGAIN.addEventListener("click", () => {
     displayController.showForm();
     gameController.restartGame();
 });
-
-// WINNING_SCORE_COMBO.addEventListener("change", formController.updateWinningScore);
