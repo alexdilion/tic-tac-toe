@@ -283,7 +283,11 @@ const aiPlayer = (difficulty) => {
 
     const isAi = () => true;
 
-    return {...prototype, isAi, makeMove};
+    return {
+        ...prototype,
+        isAi, 
+        makeMove
+    };
 };
 
 const gameController = (() => {
