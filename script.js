@@ -346,14 +346,14 @@ const gameController = (() => {
         let turnResult = gameBoard.checkBoard();
         checkRoundOver(turnResult);
 
-        if (aiGame) {
+        if (aiGame && turnResult !== "win") {
             changePlayer();
             currentPlayer.makeMove();
             turnResult = gameBoard.checkBoard();
             checkRoundOver(turnResult);
         }
 
-        changePlayer();
+        if (turnResult !== "win") changePlayer();
     };
 
     const getCurrentPlayer = () => currentPlayer;
